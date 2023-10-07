@@ -54,6 +54,18 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+osThreadId_t DataReadingTaskHandle;
+osThreadAttr_t DataReadingTask_attributes = {
+  .name = "Data Reading Task",
+  .priority = (osPriority_t) osPriorityHigh,
+  .stack_size = 1024
+};
+osThreadId_t CANTransmitTaskHandle;
+osThreadAttr_t CANTRansmitTask_attributes = {
+  .name = "CAN Transmit Task",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 1024
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -88,11 +100,13 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  CAN_Init(CAN_MODE_NORMAL);
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
   /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  DataReadingTaskHandle = osThreadNew(DataReadingTask, NULL, &DataReadingTask_attributes);
+  CANSendingTaskHandle = osThreadNew(CANSendingTask, NULL, &CANSendingTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -117,7 +131,9 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    // default task is heartbeat
+    // LED_Toggle(HEARTBEAT);
+    osDelay(250);
   }
   /* USER CODE END StartDefaultTask */
 }
