@@ -36,6 +36,8 @@ extern "C" {
 
 /* USER CODE END Private defines */
 
+extern I2C_HandleTypeDef hi2c1;
+
 /**
   * @brief I2C1 Initialization Function
   * @param None
