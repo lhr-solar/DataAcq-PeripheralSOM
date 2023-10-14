@@ -34,8 +34,6 @@ HAL_StatusTypeDef Airflow_GetMeasurements(AirflowData_t *Data){
     ticks = xTaskGetTickCount();
 
     // Read 5 bytes and stores data within struct fields
-    error |= HAL_I2C_Master_Transmit(&hi2c1, ADDR, NULL, 0, HAL_MAX_DELAY)
-    debugprintf("ERROR: %d\n\r", error);
     error |= HAL_I2C_Master_Receive(&hi2c1, ADDR, (uint8_t*)Data, 5, HAL_MAX_DELAY);
     debugprintf("ERROR: %d\n\r", error);
     Data->flowData &= 0xFFF;

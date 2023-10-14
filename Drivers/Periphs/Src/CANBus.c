@@ -182,7 +182,7 @@ BaseType_t CAN_PutInTransmitQueue(CANMSG_t canmessage) {
 }
 
 /** CAN Transmit New
- * @brief Creates can message and adds it to transmit queue
+ * @brief Creates CAN message and adds it to transmit queue
  * @note Wrapper for CAN_FormPacket and CAN_PutInTransmitQueue
  * @param StdId CAN message ID
  * @param TxData Data to transmit
