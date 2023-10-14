@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    Airflow.c
-  * @brief   Air Velocity Sensor Driver - FS3000
-  *          This file interfaces with the FS3000.
+  * @file    Airflow.h
+  * @brief   Air Velocity Sensor API - FS3000
+  *          This file contains all the function prototypes for Airflow.c
   ******************************************************************************
   * @attention
   *
@@ -13,19 +13,26 @@
   *
   ******************************************************************************
   */
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __AIRFLOW_H__
+#define __AIRFLOW_H__
 
-#include "Airflow.h"
-#include "i2c.h"
+#include "FreeRTOS.h"
+#include <stdint.h>
+
+// TODO: defines
+
+typedef struct {
+    uint16_t velocity;
+    // other necessary fields
+} Airflow_Data_t;
 
 /** Airflow Init
  * @brief Initialize the Airflow sensor
  * 
  * @return pdTRUE if initialization was successful, pdFALSE otherwise
 */
-BaseType_t Airflow_Init(void) {
-  // TODO: Initialize I2C
-  // TODO: Initialize Sensor
-}
+BaseType_t Airflow_Init(void);
 
 /** Airflow Read Data
  * @brief Update Airflow struct with new data
@@ -33,6 +40,6 @@ BaseType_t Airflow_Init(void) {
  * @param Data Pointer to the data structure to be filled
  * @return pdTRUE if data was successfully fetched from queue, pdFALSE if queue is empty
 */
-BaseType_t Airflow_ReadData(Airflow_Data_t* Data) {
-  // TODO: Read data from sensor
-}
+BaseType_t Airflow_ReadData(Airflow_Data_t* Data);
+
+#endif /* __AIRFLOW_H__ */

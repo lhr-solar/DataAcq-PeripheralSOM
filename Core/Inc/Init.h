@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    can.h
+  * @file    Init.h
   * @brief   This file contains all the function prototypes for
-  *          the can.c file
+  *          the Init.c file
   ******************************************************************************
   * @attention
   *
@@ -14,24 +14,9 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __CAN_H__
-#define __CAN_H__
+#ifndef __INIT_H__
+#define __INIT_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+void InitializePeripherals(void)
 
-/* Header content ------------------------------------------------------------------*/
-#include "main.h"
-#include "stm32l4xx_hal.h"
-
-extern CAN_HandleTypeDef hcan1;
-void MX_CAN1_Init(void);
-
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* __CAN_H__ */
-
+#endif /* __INIT_H__ */

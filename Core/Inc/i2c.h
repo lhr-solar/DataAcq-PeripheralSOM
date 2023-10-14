@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    can.h
+  * @file    i2c.h
   * @brief   This file contains all the function prototypes for
-  *          the can.c file
+  *          the i2c.c file
   ******************************************************************************
   * @attention
   *
@@ -14,8 +14,8 @@
   ******************************************************************************
   */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __CAN_H__
-#define __CAN_H__
+#ifndef __I2C_H__
+#define __I2C_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,13 +25,11 @@ extern "C" {
 #include "main.h"
 #include "stm32l4xx_hal.h"
 
-extern CAN_HandleTypeDef hcan1;
-void MX_CAN1_Init(void);
+extern I2C_HandleTypeDef hi2c1;
+void MX_I2C1_Init(void);
 
 
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* __CAN_H__ */
-
+#endif /*__ I2C_H__ */
