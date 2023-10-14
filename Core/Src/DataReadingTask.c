@@ -21,12 +21,12 @@ void DataReadingTask(void* argument){
     AirflowData_t AirflowData;
 
     while(1) {
-        // Send Airflow data
+        // Add Airflow Data to TX Queue
         if (Airflow_GetMeasurements(&AirflowData) == HAL_OK){
             CAN_TransmitNew(0x1, AirflowData->flowData);    // TODO: get actual id
         }
-        // Send IMU Data
+        // Add IMU Data to TX Queue
 
-        // Send Temperature Data
+        // Add Temperature Data to TX Queue
     }
 }
