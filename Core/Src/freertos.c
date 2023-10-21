@@ -19,7 +19,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "FreeRTOS.h"
-#include "task.h"
+#include "tasks.h"
 #include "main.h"
 #include "cmsis_os.h"
 
@@ -47,12 +47,17 @@
 /* USER CODE BEGIN Variables */
 
 /* USER CODE END Variables */
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_size = 128 * 4,
+osThreadId_t dataReadingTaskHandle;
+osThreadAttr_t dataReadingTask_attributes = {
+  .name = "Data Reading Task",
+  .priority = (osPriority_t) osPriorityHigh,
+  .stack_size = 1024
+};
+osThreadId_t dataSendingTaskHandle;
+osThreadAttr_t dataSendingTask_attributes = {
+  .name = "Data Sending Task",
   .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 1024
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -88,11 +93,13 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
+  // TODO: call any init functions that handle RTOS queues
+  InitializePeripherals();
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  dataReadingTaskHandle = osThreadNew(dataReadingTask, NULL, &dataReadingTask_attributes);
+  dataSendingTaskHandle = osThreadNew(dataSendingTask, NULL, &dataSendingTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -102,24 +109,6 @@ void MX_FREERTOS_Init(void) {
   /* add events, ... */
   /* USER CODE END RTOS_EVENTS */
 
-}
-
-/* USER CODE BEGIN Header_StartDefaultTask */
-/**
-  * @brief  Function implementing the defaultTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
-{
-  /* USER CODE BEGIN StartDefaultTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartDefaultTask */
 }
 
 /* Private application code --------------------------------------------------*/
