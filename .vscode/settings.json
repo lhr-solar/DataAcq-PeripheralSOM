@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stm32l4xx_hal.h": "c",
-        "stm32l431xx.h": "c"
+        "stm32l431xx.h": "c",
+        "can.h": "c"
     }
 }
