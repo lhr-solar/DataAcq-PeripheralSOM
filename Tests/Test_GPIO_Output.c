@@ -23,6 +23,7 @@
 #include "can.h"
 #include "gpio.h"
 #include "stdint.h"
+#include "stdbool.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -56,8 +57,7 @@ void MX_FREERTOS_Init(void);
 void Error_Handler(void);
 void defaultTask(void *argument);
 void GPIOTest(void *argument);
-void Read(uint8_t port, uint8_t pin);
-void Blink_Success();
+void Blink_Pin(uint16_t pin);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -118,7 +118,7 @@ int main(void)
   osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
-  defaultTaskHandle = osThreadNew(defaultTask, NULL, &defTask_attributes);
+  defTaskHandle = osThreadNew(defaultTask, NULL, &defTask_attributes);
   GPIOTestHandle = osThreadNew(GPIOTest, NULL, &GPIOTest_attributes);
 
   /* Start scheduler */
@@ -138,51 +138,16 @@ int main(void)
 
 void GPIOTest(void *argument)
 {
-    //Read PA1
-    Read(1, 1);
-    Blink_Success();
-
-    //Read PA2
-    Read(1, 2);
-    Blink_Success();
-
-    //Read PA8
-    Read(1, 8);
-    Blink_Success();
-
-    //Read PA2
-    Read(1, 11);
-    Blink_Success();
-
-    //Read PA2
-    Read(1, 12);
-    Blink_Success();
-
-    //Read PB15
-    Read(2, 15);
-    Blink_Success();
-}
-
-void Read(uint8_t port, uint8_t pin){
-    GPIO_TypeDef *type;
-    if(port == 1){
-        type = ((GPIO_TypeDef *) GPIOA_BASE);
-    }else{
-        type = ((GPIO_TypeDef *) GPIOB_BASE);
-    }
-
-    while (1) {
-        GPIO_PinState PinIn = HAL_GPIO_ReadPin(type, pin);
-        if(PinIn == GPIO_PIN_SET){
-            break;
-        }
-        osDelay(1000);
+    while(true) {
+        Blink_Pin(3);
+        Blink_Pin(4);
+        Blink_Pin(5);
     }
 }
 
 //PB3 will be the blinker
-void Blink_Success(){
-    uint16_t GPIO_PIN = 3;
+void Blink_Pin(uint16_t pin){
+    uint16_t GPIO_PIN = pin;
     GPIO_PinState PinOn = GPIO_PIN_SET;
     GPIO_PinState PinOff = GPIO_PIN_RESET;
 
