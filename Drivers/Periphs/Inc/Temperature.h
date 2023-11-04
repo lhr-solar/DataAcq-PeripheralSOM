@@ -20,6 +20,8 @@
 #include "FreeRTOS.h"
 #include <stdint.h>
 
+#define TEMP_ERR_OUT_BOUNDS 42424242
+
 typedef struct {
     int16_t temp1;
     int16_t temp2;

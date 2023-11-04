@@ -15,6 +15,7 @@
   */
 
 #include "Temperature.h"
+#include "VoltToTemp.h"
 
 /** Temperature Init
  * @brief Initialize the Temperature sensor
@@ -24,6 +25,21 @@
 BaseType_t Temperature_Init(void) {
   // TODO: Initialize ADC
   // TODO: Initialize Sensor
+}
+
+/** milliVolt to Celsius
+ * Converts mv to temperature based on the temperature sensor equation
+ * Equation : T(in C) = (((13.582 - sqrt((-13.582)*(-13.582) + 4 * 0.00433 * (2230.8 - milliVolt)))/ (2.0 * -0.00433)) + 30)
+ * @param mV from ADC
+ * @return temperature in Celsius (Fixed Point with .001 resolution) 
+ */
+int32_t milliVoltToCelsius(uint32_t milliVolt){
+	if (milliVolt < sizeof(voltToTemp)/sizeof(voltToTemp[0])) {
+		return voltToTemp[milliVolt];
+	}
+	else {
+		return TEMP_ERR_OUT_BOUNDS;
+	}
 }
 
 /** Temperature Read Data
