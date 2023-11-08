@@ -100,6 +100,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_SPI_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -127,19 +128,11 @@ int main(void)
 }
 
 void SpiTest(void *argument){
-    SPI_HandleTypeDef hspi;
-    uint8_t data[8];
-    uint8_t size = 8;
+    uint8_t data[10] = {1,0,1,0,1,1,1,0,0,0};
+    uint8_t size = 10;
     uint32_t timeout = 1000;
-
-    //Send all numbers sequentially in groups of 8
-    int c = 1;
-    while(c < 10) {
-        for(uint8_t i = 0; i < 8; i++){
-            data[i] = i*c;
-        }
-        HAL_SPI_Transmit(&hspi, data, size, timeout);
-        c = c+8;
+    while(1){
+        while(HAL_SPI_Transmit(&hspi, data, size, timeout));
     }
 }
 

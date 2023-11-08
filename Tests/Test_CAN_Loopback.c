@@ -19,7 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-#include "can.h"
+#include "Airflow.h"
 #include "CANBus.h"
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -103,6 +103,18 @@ void RecieveTask(void* argument){
         osDelay(200);
     }
 }
+
+void StartDefaultTask(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
+}
+
 /* End Test Threads -----------------------------------------------------------*/
 
 /* USER CODE END PFP */
@@ -139,7 +151,8 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_CAN1_Init();
+    MX_GPIO_Init();
+
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -276,17 +289,6 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
-}
-
-void StartDefaultTask(void *argument)
-{
-  /* USER CODE BEGIN 5 */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END 5 */
 }
 
 #endif /* USE_FULL_ASSERT */

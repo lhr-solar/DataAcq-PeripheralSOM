@@ -16,6 +16,8 @@
 
 #include "FreeRTOS.h"
 #include "queue.h"
+#include "stm32l4xx.h"
+#include "stm32l4xx_hal.h"
 #include <stdbool.h>
 
 
@@ -130,6 +132,8 @@ struct CanLUTEntry {uint8_t idx_used : 1; uint8_t len : 7;};
  * @return HAL_StatusTypeDef - Status of CAN configuration
  */
 HAL_StatusTypeDef CAN_Init(uint32_t mode);
+
+static HAL_StatusTypeDef MX_CAN1_Init(uint32_t mode);
 
 /** CAN Fetch Message
  * @brief Fetch a CAN message from the queue

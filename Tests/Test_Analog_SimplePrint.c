@@ -1,4 +1,3 @@
-
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -18,20 +17,14 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "stdio.h"
+#include "adc.h"
 #include "stm32l4xx_hal.h"
-#include "stm32l4xx_hal_i2c.h"
+#include "stm32l4xx_hal_dma.h"
+#include "stm32l4xx_hal_gpio.h"
+#include "stm32l4xx_hal_adc.h"
 #include "cmsis_os.h"
 #include "gpio.h"
-#include "stdio.h"
-#include "i2c.h"
-
-osThreadId_t I2COutputHandle;
-const osThreadAttr_t I2COutput_attributes = {
-  .name = "I2COutput",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 128 * 4
-}; 
-
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -63,13 +56,28 @@ const osThreadAttr_t I2COutput_attributes = {
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 void Error_Handler(void);
-void I2COutput(void *argument);
+void AnalogTest(void *argument);
+void defaultTask(void *argument);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+osThreadId_t defTaskHandle;
+const osThreadAttr_t defTask_attributes = {
+  .name = "defaultTask",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+};
+
+osThreadId_t AnalogTestHandle;
+const osThreadAttr_t AnalogTest_attributes = {
+  .name = "AnalogTest",
+  .priority = (osPriority_t) osPriorityNormal,
+  .stack_size = 128 * 4
+}; 
 
 /* USER CODE END 0 */
 
@@ -101,7 +109,6 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -111,7 +118,8 @@ int main(void)
   osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
-    I2COutputHandle = osThreadNew(I2COutput, NULL, &I2COutput_attributes);
+  defTaskHandle = osThreadNew(defaultTask, NULL, &defTask_attributes);
+  AnalogTestHandle = osThreadNew(AnalogTest, NULL, &AnalogTest_attributes);
 
   /* Start scheduler */
   osKernelStart();
@@ -128,13 +136,30 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-void I2COutput(void *argument){
-    uint8_t data[10] = {1,0,1,0,1,1,1,0,0,0};
-    uint8_t size = 10;
-    uint32_t timeout = 1000;
-    while(1) {
-        while(HAL_I2C_Master_Transmit(&hi2c1, 0x51 << 1, data, size, timeout));
+uint32_t data[100];
+
+void AnalogTest(void *argument)
+{
+    ADC_Init();
+
+    while(true) {
+        HAL_ADC_Start_DMA(&hadc, data, 100);
+
+        for(uint8_t i = 0; i < 100; i++){
+            printf("%d", data[i]);
+        }
     }
+}
+
+void defaultTask(void *argument)
+{
+
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END 5 */
 }
 
 /**

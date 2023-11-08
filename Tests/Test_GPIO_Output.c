@@ -145,7 +145,6 @@ void GPIOTest(void *argument)
     }
 }
 
-//PB3 will be the blinker
 void Blink_Pin(uint16_t pin){
     uint16_t GPIO_PIN = pin;
     GPIO_PinState PinOn = GPIO_PIN_SET;

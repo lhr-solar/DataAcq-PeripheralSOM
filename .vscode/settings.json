@@ -1,7 +1,10 @@
 {
     "files.associations": {
-        "stm32l4xx_hal.h": "c",
-        "stm32l431xx.h": "c",
-        "can.h": "c"
+        "task.h": "c",
+        "config.h": "c",
+        "can.h": "c",
+        "stm32l4xx_hal_conf.h": "c",
+        "stm32l4xx_hal_rcc.h": "c",
+        "canbus.h": "c"
     }
 }

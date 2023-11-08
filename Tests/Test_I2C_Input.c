@@ -20,13 +20,13 @@
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_i2c.h"
 #include "cmsis_os.h"
-#include "can.h"
 #include "gpio.h"
 #include "stdio.h"
+#include "i2c.h"
 
-osThreadId_t I2CTestHandle;
-const osThreadAttr_t I2CTest_attributes = {
-  .name = "I2CTest",
+osThreadId_t I2CInputHandle;
+const osThreadAttr_t I2CInput_attributes = {
+  .name = "I2CInput",
   .priority = (osPriority_t) osPriorityNormal,
   .stack_size = 128 * 4
 }; 
@@ -62,7 +62,7 @@ const osThreadAttr_t I2CTest_attributes = {
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
 void Error_Handler(void);
-void I2CTest(void *argument);
+void I2CInput(void *argument);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -100,6 +100,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_I2C_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -109,7 +110,7 @@ int main(void)
   osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
 
-    I2CTestHandle = osThreadNew(I2CTest, NULL, &I2CTest_attributes);
+    I2CInputHandle = osThreadNew(I2CInput, NULL, &I2CInput_attributes);
 
   /* Start scheduler */
   osKernelStart();
@@ -126,27 +127,16 @@ int main(void)
   /* USER CODE END 3 */
 }
 
-void I2CTest(void *argument){
-    I2C_HandleTypeDef hi2c; // Declare an I2C handle
-
-    // I2C Configuration
-    hi2c.Instance = I2C1;        // I2C peripheral instance (e.g., I2C1)
-    hi2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-    hi2c.Init.Timing = 100000;  // 100kHz bus speed
-    hi2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-    hi2c.Init.OwnAddress1 = 0x50 << 1;   // Your device's 7-bit I2C address
-    hi2c.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-    hi2c.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-
-    uint8_t data[200];
-    uint8_t size = 200;
+void I2CInput(void *argument){
+    uint8_t data[10];
+    uint8_t size = 10;
     uint32_t timeout = 1000;
     while(1) {
-        //Doesn't exist
-        //HAL_I2C_Receive(&hi2c, data, size, timeout);
-        if(data[0] != 0) {
-            printf("%s\n\r", data);
+        HAL_I2C_Slave_Receive(&hi2c1, &data, size, timeout);
+        for(uint8_t i = 0; i < 10; i++){
+            printf("%d", data[i]);
         }
+        printf("\n\r");
     }
 }
 

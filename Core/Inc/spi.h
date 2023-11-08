@@ -26,7 +26,8 @@ extern "C" {
 #include "stm32l4xx_hal.h"
 
 extern SPI_HandleTypeDef hspi1;
-void MX_SPI1_Init(void)
+extern SPI_HandleTypeDef hspi2;
+void MX_SPI_Init(void)
 
 
 #ifdef __cplusplus

@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
-#include "stm32l4xx_hal_usart.h"
+#include "uart.h"
 #include "cmsis_os.h"
 #include "can.h"
 #include "gpio.h"
@@ -100,6 +100,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  USART_Init();
 
   /* USER CODE BEGIN 2 */
 
@@ -127,12 +128,11 @@ int main(void)
 }
 
 void UsartTest(void *argument){
-    USART_HandleTypeDef def;
     uint8_t data[200];
     uint8_t size = 200;
     uint32_t timeout = 1000;
     while(1) {
-        HAL_USART_Receive(&def, data, size, timeout);
+        HAL_USART_Receive(&usart1, data, size, timeout);
         if(data[0] != 0) {
             printf("%s\n\r", data);
         }

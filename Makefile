@@ -37,9 +37,14 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Core/Src/gpio.c \
+Core/Src/uart.c \
+Core/Src/adc.c \
 Core/Src/tasks.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
+Drivers/Periphs/Src/CANBus.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c \
@@ -141,6 +146,7 @@ C_INCLUDES =  \
 -IDrivers/STM32L4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
 -IDrivers/CMSIS/Include \
+-IDrivers/Periphs/Inc \
 -IMiddlewares/Third_Party/FreeRTOS/Source/include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
 -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F

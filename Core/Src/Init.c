@@ -15,7 +15,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "Init.h"
-#include "CANbus.h"
+#include "CANBus.h"
 #include "IMU.h"
 #include "Airflow.h"
 #include "Temperature.h"

@@ -26,7 +26,7 @@ extern "C" {
 #include "stm32l4xx_hal.h"
 
 extern CAN_HandleTypeDef hcan1;
-void MX_CAN1_Init(void);
+void MX_CAN1_Init_Old(void);
 
 
 #ifdef __cplusplus
