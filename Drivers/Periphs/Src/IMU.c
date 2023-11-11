@@ -32,25 +32,21 @@ BaseType_t IMU_Init(void) {
   IMUCommands_t IMUcommands;
   //Initialize SPI
   MX_SPI1_Init();
-  // TODO: Configure gyroscope and accelerometer
-  pTxData = LSM6_reboot;          /*reboot IMU*/
-  HAL_SPI_Transmit(&hspi1, &pTxData, 1, NO_POLLING);
-  pTxData = LSM6_cfg;             /*IMU feature configuration*/
-  HAL_SPI_Transmit(&hspi1, &pTxData, 1, NO_POLLING);
-  pTxData = LSM6_accel_start;     /*enable accelerometer*/
-  HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
-  pTxData = LSM6_gyro_start;      /*enable gyroscope*/
-  HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
-  // NOTE: accelerometer and gyroscope features may be further configured, see IMU.h for more details
 
-  pTxData = LSM6_FIFO_watermark;  /*FIFO watermark*/
-  HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
-  pTxData = LSM6_FIFO_data_cfg;   /*FIFO configuration*/
-  HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
-  pTxData = LSM6_FIFO_BDR;        /*FIFO batch data rate*/
-  HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
-  pTxData = LSM6_FIFO_start_cfg;  /*FIFO enable*/
-  HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
+  // Initialize IMU, gyroscope, and accelerometer
+  // NOTE: accelerometer and gyroscope features may be further configured, see IMU.h for more details
+  // TODO: Configure gyroscope and accelerometer
+  for(int i = 0; i < imuInit[0]; i ++){
+    pTxData = imuInit[i+1];
+    HAL_SPI_Transmit(&hspi1, &pTxData, 1, NO_POLLING);
+  }
+
+  // Initialize IMU hardware FIFO
+  // NOTE: FIFO size, rate and mode may be further configured, see IMU.h for more details
+  for(int i = 0; i < fifoInit[0], i ++){
+    pTxData = fifoInit[i+1];
+    HAL_SPI_Transmit(&hspi, &pTxData, 1, NO_POLLING);
+  }
 }
 
 /** IMU Read Data
@@ -63,65 +59,45 @@ BaseType_t IMU_Init(void) {
 BaseType_t IMU_ReadData(IMUData_t *Data) {
   // TODO: test on hardware
   int pTxData = 0;
-  int pRxData = 0;
+  int pRxData1 = 0;
+  int pRxData2 = 0;
 
   pTxData = LSM6_FIFO_stored; /*check if FIFO empty*/
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  if(pRxData == 0){
+  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData1, 1, NO_POLLING);
+  if(pRxData1 == 0){
     return pdFalse;
   }
+  pTxData = LSM6_FIFO_read_tag;  /*get tag*/
+  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData1, 1, NO_POLLING);
 
-  pTxData = LSM6_FIFO_read_tag;  
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  if(pRxData == LSM6_Gyroscope_NC){ // may be a fabrication
-
-  pTxData = LSM6_FIFO_read_x_h; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->gyr_x = pRxData;
-  pTxData = LSM6_FIFO_read_x_l; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->gyr_x = (Data->gyr_x << 8) || pRxData;
-
-  pTxData = LSM6_FIFO_read_y_h; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->gyr_y = pRxData;
-  pTxData = LSM6_FIFO_read_y_l; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->gyr_y = (Data->gyr_y << 8) || pRxData;
-
-  pTxData = LSM6_FIFO_read_z_h; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->gyr_z = pRxData;
-  pTxData = LSM6_FIFO_read_z_l; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->gyr_z = (Data->gyr_z << 8) || pRxData;
-
-
-  } else if(pRxData == LSM6_Accelerometer_NC){ // may be a fabrication
-
-  pTxData = LSM6_FIFO_read_x_h; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->accel_x = pRxData;
-  pTxData = LSM6_FIFO_read_x_l; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->accel_x = (Data->gyr_x << 8) || pRxData;
-
-  pTxData = LSM6_FIFO_read_y_h; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->accel_y = pRxData;
-  pTxData = LSM6_FIFO_read_y_l; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->accel_y = (Data->gyr_y << 8) || pRxData;
-
-  pTxData = LSM6_FIFO_read_z_h; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->accel_z = pRxData;
-  pTxData = LSM6_FIFO_read_z_l; 
-  HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData, 1, NO_POLLING);
-  Data->accel_z = (Data->accel_z << 8) || pRxData;
-
+  if(pRxData == LSM6_Gyroscope_NC){ // may be the wrong FIFO tag, assumes gyroscope
+    for(int i = 0; i < fifoXYZregisters[0] - 1; i = i + 2){
+      pTxData = fifoXYZregisters[i+1];
+      HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData1, 1, NO_POLLING);
+     pTxData = fifoXYZregisters[i+2];
+     HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData2, 1, NO_POLLING);
+     switch(i){
+       case 0: Data->gyr_x = (pRxData1 << 8) | pRxData2;
+       case 2: Data->gyr_y = (pRxData1 << 8) | pRxData2;
+       case 4: Data->gyr_z = (pRxData1 << 8) | pRxData2;
+     }
+   }
+  } else if(pRxData == LSM6_Accelerometer_NC){ // may be the wrong FIFO tag, assumes accelerometer
+    for(int i = 0; i < fifoXYZregisters[0] - 1; i = i + 2){
+      pTxData = fifoXYZregisters[i+1];
+      HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData1, 1, NO_POLLING);
+     pTxData = fifoXYZregisters[i+2];
+     HAL_SPI_TransmitReceive(&hspi, &pTxData, &pRxData2, 1, NO_POLLING);
+     switch(i){
+       case 0: Data->accel_x = (pRxData1 << 8) | pRxData2;
+       case 2: Data->accel_y = (pRxData1 << 8) | pRxData2;
+       case 4: Data->accel_z = (pRxData1 << 8) | pRxData2;
+     }
+   }
   } else {
+    // not accelerometer data
     return pdFalse;
   }
+
   return pdTrue;
 }
