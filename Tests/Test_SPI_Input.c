@@ -17,11 +17,13 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "stdio.h"
+#include "GPIO.h"
+#include "SPI.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_spi.h"
 #include "cmsis_os.h"
-#include "gpio.h"
-#include "stdio.h"
+
 
 osThreadId_t SpiTestHandle;
 const osThreadAttr_t SpiTest_attributes = {
@@ -77,52 +79,53 @@ void SpiTest(void *argument);
   */
 int main(void)
 {
-  /* USER CODE BEGIN 1 */
+    /* USER CODE BEGIN 1 */
 
-  /* USER CODE END 1 */
+    /* USER CODE END 1 */
 
-  /* MCU Configuration--------------------------------------------------------*/
+    /* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
 
-  /* USER CODE BEGIN Init */
+    /* USER CODE BEGIN Init */
 
-  /* USER CODE END Init */
+    /* USER CODE END Init */
 
-  /* Configure the system clock */
-  SystemClock_Config();
+    /* Configure the system clock */
+    SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
+    /* USER CODE BEGIN SysInit */
 
-  /* USER CODE END SysInit */
+    /* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
+    /* Initialize all configured peripherals */
+    MX_GPIO_Init();
+    MX_SPI_Init(SPI1);
 
-  /* USER CODE BEGIN 2 */
+    /* USER CODE BEGIN 2 */
 
-  /* USER CODE END 2 */
+    /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
-  MX_FREERTOS_Init();
+    /* Init scheduler */
+    osKernelInitialize();  /* Call init function for freertos objects (in freertos.c) */
+    MX_FREERTOS_Init();
 
-    SpiTestHandle = osThreadNew(SpiTest, NULL, &SpiTest_attributes);
+        SpiTestHandle = osThreadNew(SpiTest, NULL, &SpiTest_attributes);
 
-  /* Start scheduler */
-  osKernelStart();
+    /* Start scheduler */
+    osKernelStart();
 
-  /* We should never get here as control is now taken by the scheduler */
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-    /* USER CODE END WHILE */
+    /* We should never get here as control is now taken by the scheduler */
+    /* Infinite loop */
+    /* USER CODE BEGIN WHILE */
+    while (1)
+    {
+        /* USER CODE END WHILE */
 
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+        /* USER CODE BEGIN 3 */
+    }
+    /* USER CODE END 3 */
 }
 
 void SpiTest(void *argument){

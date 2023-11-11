@@ -17,10 +17,10 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "GPIO.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_gpio.h"
 #include "cmsis_os.h"
-#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -134,16 +134,21 @@ int main(void)
 
 void GPIOTest(void *argument)
 {
-    uint16_t GPIO_PIN = 3;
+    uint16_t Button_Pin = 1;
+    uint16_t LED_Pin = 3;
     GPIO_PinState PinOn = GPIO_PIN_SET;
     GPIO_PinState PinOff = GPIO_PIN_RESET;
 
     while(1)
     {
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN, PinOn);
-        osDelay(1000);
-        HAL_GPIO_WritePin(GPIOB, GPIO_PIN, PinOff);
-        osDelay(1000);
+        //This is the input :/
+        //Change Button_Pin to 2 to test the switch
+        while(!HAL_GPIO_ReadPin(GPIOB, Button_Pin));
+
+        HAL_GPIO_WritePin(GPIOB, LED_Pin, PinOn);
+        osDelay(5000);
+        HAL_GPIO_WritePin(GPIOB, LED_Pin, PinOff);
+        osDelay(5000);
     }
 }
 

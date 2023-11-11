@@ -17,20 +17,13 @@
 #ifndef __SPI_H__
 #define __SPI_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /* Header content ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32l4xx_hal.h"
+#include "stm32l4xx_hal_spi.h"
 
 extern SPI_HandleTypeDef hspi1;
 extern SPI_HandleTypeDef hspi2;
-void MX_SPI_Init(void)
+void MX_SPI_Init(SPI_TypeDef* port);
 
-
-#ifdef __cplusplus
-}
 #endif
-#endif /*__ SPI_H__ */

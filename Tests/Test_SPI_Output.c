@@ -17,11 +17,12 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "stdio.h"
+#include "GPIO.h"
+#include "SPI.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_spi.h"
 #include "cmsis_os.h"
-#include "gpio.h"
-#include "stdio.h"
 
 osThreadId_t SpiTestHandle;
 const osThreadAttr_t SpiTest_attributes = {
@@ -99,7 +100,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_SPI_Init();
+  MX_SPI_Init(SPI1);
 
   /* USER CODE BEGIN 2 */
 
@@ -131,7 +132,7 @@ void SpiTest(void *argument){
     uint8_t size = 10;
     uint32_t timeout = 1000;
     while(1){
-        while(HAL_SPI_Transmit(&hspi, data, size, timeout));
+        while(HAL_SPI_Transmit(&hspi1, data, size, timeout));
     }
 }
 

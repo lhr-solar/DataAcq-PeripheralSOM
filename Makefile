@@ -39,12 +39,15 @@ C_SOURCES =  \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
 Drivers/Periphs/Src/CAN.c \
+Drivers/Periphs/Src/SPI.c \
 Driver/Periphs/Src/GPIO.c \
 Driver/Periphs/Src/UART.c \
+Driver/Periphs/Src/I2C.c \
 Driver/Periphs/Src/ADC.c \
 Driver/Periphs/Src/tasks.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c \

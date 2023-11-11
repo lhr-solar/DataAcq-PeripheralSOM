@@ -17,11 +17,11 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal.h"
-#include "uart.h"
-#include "cmsis_os.h"
-#include "gpio.h"
 #include "stdio.h"
+#include "GPIO.h"
+#include "UART.h"
+#include "stm32l4xx_hal.h"
+#include "cmsis_os.h"
 
 osThreadId_t UsartTestHandle;
 const osThreadAttr_t UsartTest_attributes = {

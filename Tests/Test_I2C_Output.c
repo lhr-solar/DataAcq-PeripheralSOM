@@ -18,12 +18,12 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include "stdio.h"
+#include "GPIO.h"
+#include "I2C.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_i2c.h"
 #include "cmsis_os.h"
-#include "gpio.h"
-#include "stdio.h"
-#include "i2c.h"
 
 osThreadId_t I2COutputHandle;
 const osThreadAttr_t I2COutput_attributes = {
@@ -101,7 +101,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_I2C1_Init();
+  MX_I2C_Init(I2C1);
 
   /* USER CODE BEGIN 2 */
 
