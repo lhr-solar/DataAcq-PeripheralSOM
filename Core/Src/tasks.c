@@ -8,10 +8,7 @@
  * 
  */
 
-#include "Tasks.h"
-#include "Airflow.h"
-#include "IMU.h"
-#include "Temperature.h"
+#include "tasks.h"
 #include <string.h>
 #include <stdio.h>
 

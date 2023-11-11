@@ -36,10 +36,18 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/main.c \
-Core/Src/gpio.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
+Drivers/Periphs/Src/CAN.c \
+Drivers/Periphs/Src/SPI.c \
+Driver/Periphs/Src/GPIO.c \
+Driver/Periphs/Src/UART.c \
+Driver/Periphs/Src/I2C.c \
+Driver/Periphs/Src/ADC.c \
+Driver/Periphs/Src/tasks.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c_ex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim_ex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal.c \
@@ -55,8 +63,10 @@ Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_pwr_ex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_cortex.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c \
+Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.c \
 Core/Src/system_stm32l4xx.c \
-Core/Src/can.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_can.c \
 Core/Src/freertos.c \
 Core/Src/stm32l4xx_hal_timebase_tim.c \
@@ -65,11 +75,18 @@ Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
 Middlewares/Third_Party/FreeRTOS/Source/list.c \
 Middlewares/Third_Party/FreeRTOS/Source/queue.c \
 Middlewares/Third_Party/FreeRTOS/Source/stream_buffer.c \
-Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
+Middlewares/Third_Party/FreeRTOS/Source/task.c \
 Middlewares/Third_Party/FreeRTOS/Source/timers.c \
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
+
+ifdef TEST
+TEST_FILE := Test_$(TEST).c
+C_SOURCES += Tests/$(TEST_FILE)
+else
+C_SOURCES += Core/Src/main.c
+endif
 
 # ASM sources
 ASM_SOURCES =  \
@@ -131,6 +148,7 @@ C_INCLUDES =  \
 -IDrivers/STM32L4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
 -IDrivers/CMSIS/Include \
+-IDrivers/Periphs/Inc \
 -IMiddlewares/Third_Party/FreeRTOS/Source/include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
 -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
