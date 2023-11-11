@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "spi.h"
+#include "SPI.h"
 #include "stm32l4a6xx.h"
 
 /* USER CODE BEGIN 0 */

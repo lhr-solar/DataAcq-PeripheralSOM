@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "i2c.h"
+#include "I2C.h"
 #include "stm32l4a6xx.h"
 
 /* USER CODE BEGIN 0 */

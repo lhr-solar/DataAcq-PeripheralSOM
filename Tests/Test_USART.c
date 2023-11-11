@@ -20,7 +20,6 @@
 #include "stm32l4xx_hal.h"
 #include "uart.h"
 #include "cmsis_os.h"
-#include "can.h"
 #include "gpio.h"
 #include "stdio.h"
 

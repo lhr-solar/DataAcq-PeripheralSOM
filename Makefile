@@ -36,13 +36,13 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
-Core/Src/gpio.c \
-Core/Src/uart.c \
-Core/Src/adc.c \
-Core/Src/tasks.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
-Drivers/Periphs/Src/CANBus.c \
+Drivers/Periphs/Src/CAN.c \
+Driver/Periphs/Src/GPIO.c \
+Driver/Periphs/Src/UART.c \
+Driver/Periphs/Src/ADC.c \
+Driver/Periphs/Src/tasks.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_adc.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_i2c.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_tim.c \
@@ -64,7 +64,6 @@ Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_usart.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_uart.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_spi.c \
 Core/Src/system_stm32l4xx.c \
-Core/Src/can.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_can.c \
 Core/Src/freertos.c \
 Core/Src/stm32l4xx_hal_timebase_tim.c \

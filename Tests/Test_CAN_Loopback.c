@@ -20,7 +20,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "Airflow.h"
-#include "CANBus.h"
+#include "CAN.h"
 #include "FreeRTOS.h"
 #include "queue.h"
 #include <stdio.h>

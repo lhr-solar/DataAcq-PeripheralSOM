@@ -6,8 +6,7 @@
  * 
  */
 
-#include "CANBus.h"
-#include "can.h"
+#include "CAN.h"
 #include "main.h"
 #include <string.h>
 #include <stdio.h>
@@ -17,6 +16,7 @@
 /**
  * @brief Data structures needed for HAL CAN operation
  */
+CAN_HandleTypeDef hcan1;
 static CAN_RxHeaderTypeDef RxHeader;
 static uint8_t RxData[8];
 static uint32_t TxMailbox;
@@ -81,11 +81,11 @@ static HAL_StatusTypeDef CAN_Recieve(CAN_RxHeaderTypeDef *rx_header, uint8_t *rx
   */
 static HAL_StatusTypeDef MX_CAN1_Init(uint32_t mode) {
     hcan1.Instance = CAN1;
-    hcan1.Init.Prescaler = 45;
-    hcan1.Init.Mode = mode;
+    hcan1.Init.Prescaler = 16;
+    hcan1.Init.Mode = CAN_MODE_NORMAL;
     hcan1.Init.SyncJumpWidth = CAN_SJW_1TQ;
-    hcan1.Init.TimeSeg1 = CAN_BS1_3TQ;
-    hcan1.Init.TimeSeg2 = CAN_BS2_4TQ;
+    hcan1.Init.TimeSeg1 = CAN_BS1_1TQ;
+    hcan1.Init.TimeSeg2 = CAN_BS2_1TQ;
     hcan1.Init.TimeTriggeredMode = DISABLE;
     hcan1.Init.AutoBusOff = DISABLE;
     hcan1.Init.AutoWakeUp = DISABLE;
@@ -93,7 +93,12 @@ static HAL_StatusTypeDef MX_CAN1_Init(uint32_t mode) {
     hcan1.Init.ReceiveFifoLocked = DISABLE;
     hcan1.Init.TransmitFifoPriority = DISABLE;
 
-    return HAL_CAN_Init(&hcan1);
+    HAL_StatusTypeDef returnStatus = HAL_CAN_Init(&hcan1);
+    if (returnStatus != HAL_OK)
+    {
+        Error_Handler();
+    }
+    return returnStatus;
 }
 
 /** CAN1 Initialization

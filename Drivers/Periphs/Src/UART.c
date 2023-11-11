@@ -1,6 +1,6 @@
 /* Copyright (c) 2018-2022 UT Longhorn Racing Solar */
 
-#include "uart.h"
+#include "UART.h"
 
 #define TX_SIZE     2048
 #define RX_SIZE     64
@@ -46,6 +46,6 @@ uint32_t UART_Read(uint8_t *data) {
  *       space to open up. Do not call from timing-critical
  *       sections of code.
  */
-HAL_StatusTypeDef UART_Write(char *str, uint32_t len) {
-    return HAL_USART_Transmit(&usart1, str, len, 1000);
+HAL_StatusTypeDef UART_Write(uint8_t *txData, uint32_t len) {
+    return HAL_USART_Transmit(&usart1, txData, len, 1000);
 }

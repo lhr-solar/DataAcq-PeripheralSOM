@@ -1,4 +1,4 @@
-#include "adc.h"
+#include "ADC.h"
 
 ADC_HandleTypeDef hadc;
 DMA_HandleTypeDef hdma_adc;
@@ -41,6 +41,7 @@ void ADC_Init(void) {
 	ADC_InitStruct.NbrOfConversion = 1;	
 
     hadc.Instance = ADC1;
+    hadc.Init = ADC_InitStruct;
 
 	HAL_ADC_Init(&hadc);
 }

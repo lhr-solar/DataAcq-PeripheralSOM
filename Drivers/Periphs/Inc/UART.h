@@ -34,6 +34,6 @@ uint32_t UART_Read(uint8_t *data);
  *       space to open up. Do not call from timing-critical
  *       sections of code.
  */
-HAL_StatusTypeDef UART_Write(char *str, uint32_t len);
+HAL_StatusTypeDef UART_Write(uint8_t *txData, uint32_t len);
 
 #endif
