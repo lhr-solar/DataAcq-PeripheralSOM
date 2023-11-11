@@ -18,13 +18,14 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "stdio.h"
-#include "adc.h"
+#include "stdbool.h"
+#include "ADC.h"
+#include "GPIO.h"
 #include "stm32l4xx_hal.h"
 #include "stm32l4xx_hal_dma.h"
 #include "stm32l4xx_hal_gpio.h"
 #include "stm32l4xx_hal_adc.h"
 #include "cmsis_os.h"
-#include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -146,7 +147,7 @@ void AnalogTest(void *argument)
         HAL_ADC_Start_DMA(&hadc, data, 100);
 
         for(uint8_t i = 0; i < 100; i++){
-            printf("%d", data[i]);
+            printf("%ld", data[i]);
         }
     }
 }
