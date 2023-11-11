@@ -75,59 +75,86 @@
 
 /*SPI Messages*/
 /*IMU feature configuration*/
-#define LSM6_cfg (0b00000000 << 8) || (LSM6_CFG_ACCESS << 1) || LSM6_SPI_WRITE
+#define LSM6_cfg (0b00000000 << 8) | (LSM6_CFG_ACCESS << 1) | LSM6_SPI_WRITE
 
 /* low power mode 1 (2 mean) at 240 hz*/
-#define LSM6_accel_start (0b01000111 << 8) || (LSM6_CTRL_1 << 1) ||  LSM6_SPI_WRITE 
+#define LSM6_accel_start (0b01000111 << 8) | (LSM6_CTRL_1 << 1) |  LSM6_SPI_WRITE 
 
 /* lower power mode at 240 hz*/
-#define LSM6_gyro_start (0b01010111 << 8) || (LSM6_CTRL_2 << 1) || LSM6_SPI_WRITE 
+#define LSM6_gyro_start (0b01010111 << 8) | (LSM6_CTRL_2 << 1) | LSM6_SPI_WRITE 
 
 /* reboot memory content and reset all control registers*/
-#define LSM6_reboot (0b10000001 << 8) || (LSM6_CTRL_3 << 1) || LSM6_SPI_WRITE
+#define LSM6_reboot (0b10000001 << 8) | (LSM6_CTRL_3 << 1) | LSM6_SPI_WRITE
 
 /* gyroscope low-pass-filter 1 (unconfigured) */
-#define LSM6_gyro_lpf1_cfg (0b00000000 << 8) || (LSM6_CTRL_6 << 1) || LSM6_SPI_WRITE
+#define LSM6_gyro_lpf1_cfg (0b00000000 << 8) | (LSM6_CTRL_6 << 1) | LSM6_SPI_WRITE
 
 /* gyroscope LPF1 disabled*/
-#define LSM6_gyro_lpf1_enable (1b00000000 << 8) || (LSM6_CTRL_7 << 1) || LSM6_SPI_WRITE
+#define LSM6_gyro_lpf1_enable (1b00000000 << 8) | (LSM6_CTRL_7 << 1) | LSM6_SPI_WRITE
 
 /* XL LPF2 and HP filter cutoff (unconfigured), dual channel mode (disabled), full scale selection (unconfigured)*/
-#define LSM6_accel_dual_channel_cfg (0b00000000 << 8) || (LSM6_CTRL_8 << 1) || LSM6_SPI_WRITE
+#define LSM6_accel_dual_channel_cfg (0b00000000 << 8) | (LSM6_CTRL_8 << 1) | LSM6_SPI_WRITE
 
 /* XL HPF reference mode (unconfigured), LPF2 and HPF fast setting mode (unconfigured), slope selection (unconfigured)
    XL high-resolution (unconfigured), XL offset bits (unconfigured), XL offset correction (unconfigured)*/
-#define LSM6_accel_block_cfg (0b00000000 << 8) || (LSM6_CTRL_9 << 1) || LSM6_SPI_WRITE
+#define LSM6_accel_block_cfg (0b00000000 << 8) | (LSM6_CTRL_9 << 1) | LSM6_SPI_WRITE
 
 /* Embeded function debug disabled, Gyroscope self-test selection (default), XL self-test selection (default) */
-#define LSM6_debug_cfg (0b00000000 << 8) || (LSM6_CTRL_10 << 1) || LSM6_SPI_WRITE
+#define LSM6_debug_cfg (0b00000000 << 8) | (LSM6_CTRL_10 << 1) | LSM6_SPI_WRITE
 
 /* FIFO watermark threshold: 1 LSB = TAG(1 byte) + 1 sensor (6 bytes), 0x28 = (40 bytes)*/
-#define LSM6_FIFO_watermark (0b00101000 << 8) || (FIFO_CTRL_1 << 1) || LSM6_SPI_WRITE
+#define LSM6_FIFO_watermark (0b00101000 << 8) | (FIFO_CTRL_1 << 1) | LSM6_SPI_WRITE
 
 /* FIFO depth limited to watermark, compression algo disabled, ODR change not batched,
    don't force uncompressed data, FSM dual channel not forced  */
-#define LSM6_FIFO_data_cfg (0b10000000 << 8) || (FIFO_CTRL_2 << 1) || LSM6_SPI_WRITE
+#define LSM6_FIFO_data_cfg (0b10000000 << 8) | (FIFO_CTRL_2 << 1) | LSM6_SPI_WRITE
 
 /* FIFO batch data rate (BDR) for gyro and XL (240hz)*/
-#define LSM6_FIFO_BDR (0b01110111 << 8) || (FIFO_CTRL_3 << 1) || LSM6_SPI_WRITE
+#define LSM6_FIFO_BDR (0b01110111 << 8) | (FIFO_CTRL_3 << 1) | LSM6_SPI_WRITE
 
 /* timestamp not batched in FIFO, temperature not batched in FIFO, EIS gyro not batched */
 /* FIFO mode: continous*/
-#define LSM6_FIFO_start_cfg (0b00000110 << 8) || (FIFO_CTRL_4 << 1) || LSM6_SPI_WRITE
+#define LSM6_FIFO_start_cfg (0b00000110 << 8) | (FIFO_CTRL_4 << 1) | LSM6_SPI_WRITE
 
-#define LSM6_FIFO_read_tag (0b00000000 << 8) || (FIFO_DATA_OUT_TAG << 1) || LSM6_SPI_READ
+#define LSM6_FIFO_read_tag (0b00000000 << 8) | (FIFO_DATA_OUT_TAG << 1) | LSM6_SPI_READ
 
-#define LSM6_FIFO_read_x_l (0b00000000 << 8) || (FIFO_DATA_OUT_X_L << 1) || LSM6_SPI_READ
-#define LSM6_FIFO_read_x_h (0b00000000 << 8) || (FIFO_DATA_OUT_X_H << 1) || LSM6_SPI_READ
+#define LSM6_FIFO_read_x_l (0b00000000 << 8) | (FIFO_DATA_OUT_X_L << 1) | LSM6_SPI_READ
+#define LSM6_FIFO_read_x_h (0b00000000 << 8) | (FIFO_DATA_OUT_X_H << 1) | LSM6_SPI_READ
 
-#define LSM6_FIFO_read_y_l (0b00000000 << 8) || (FIFO_DATA_OUT_Y_L << 1) || LSM6_SPI_READ
-#define LSM6_FIFO_read_y_h (0b00000000 << 8) || (FIFO_DATA_OUT_Y_H << 1) || LSM6_SPI_READ
+#define LSM6_FIFO_read_y_l (0b00000000 << 8) | (FIFO_DATA_OUT_Y_L << 1) | LSM6_SPI_READ
+#define LSM6_FIFO_read_y_h (0b00000000 << 8) | (FIFO_DATA_OUT_Y_H << 1) | LSM6_SPI_READ
 
-#define LSM6_FIFO_read_z_l (0b00000000 << 8) || (FIFO_DATA_OUT_Y_L << 1) || LSM6_SPI_READ
-#define LSM6_FIFO_read_z_h (0b00000000 << 8) || (FIFO_DATA_OUT_Y_H << 1) || LSM6_SPI_READ
+#define LSM6_FIFO_read_z_l (0b00000000 << 8) | (FIFO_DATA_OUT_Y_L << 1) | LSM6_SPI_READ
+#define LSM6_FIFO_read_z_h (0b00000000 << 8) | (FIFO_DATA_OUT_Y_H << 1) | LSM6_SPI_READ
 
-#define LSM6_FIFO_stored (0b00000000 << 8) || (LSM6_FIFO_STATUS_1 << 1) || LSM6_SPI_READ
+#define LSM6_FIFO_stored (0b00000000 << 8) | (LSM6_FIFO_STATUS_1 << 1) | LSM6_SPI_READ
+
+const int imuInit[] = {
+  4,                // number of commands
+  LSM6_reboot,      /*reboot IMU*/ 
+  LSM6_cfg,         /*IMU feature configuration*/ 
+  LSM6_accel_start, /*enable accelerometer*/
+  LSM6_gyro_start   /*enable gyroscope*/
+};
+
+const int fifoInit[] = {
+  4,                    // number of commands
+  LSM6_FIFO_watermark,  /*FIFO watermark*/
+  LSM6_FIFO_data_cfg,   /*FIFO configuration*/
+  LSM6_FIFO_BDR,        /*FIFO batch data rate*/
+  LSM6_FIFO_start_cfg,  /*FIFO enable*/
+};
+
+const int fifoXYZregisters[] = {
+    6,                 // number of commands 
+  LSM6_FIFO_read_x_h, 
+  LSM6_FIFO_read_x_l, 
+  LSM6_FIFO_read_y_h,
+  LSM6_FIFO_read_y_l, 
+  LSM6_FIFO_read_z_h,
+  LSM6_FIFO_read_z_l,
+
+};
 
 typedef struct {
     int16_t accel_x;
