@@ -52,6 +52,20 @@
 #define FIFO_DATA_OUT_Y_H 0x7C
 #define FIFO_DATA_OUT_Z_L 0x7D
 #define FIFO_DATA_OUT_Z_H 0x7E
+#define OUT_TEMP_L 0x20
+#define OUT_TEMP_H 0x21
+#define OUTX_L_G 0x22
+#define OUTX_H_G 0x23
+#define OUTY_L_G 0x24
+#define OUTY_H_G 0x25
+#define OUTZ_L_G 0x26
+#define OUTZ_H_G 0x27
+#define OUTX_L_A 0x28
+#define OUTX_H_A 0x29
+#define OUTY_L_A 0x2A
+#define OUTY_H_A 0x2B
+#define OUTZ_L_A 0x2C
+#define OUTZ_H_A 0x2D
 
 /*LSM6 FIFO tag*/
 #define LSM6_Gyroscope_NC  0x01
@@ -129,6 +143,20 @@
 
 #define LSM6_FIFO_stored (0b00000000 << 8) | (LSM6_FIFO_STATUS_1 << 1) | LSM6_SPI_READ
 
+#define LSM6_read_x_l_g (0b00000000 << 8) | (OUTX_L_G<< 1) | LSM6_SPI_READ
+#define LSM6_read_x_h_g (0b00000000 << 8) | (OUTX_H_G<< 1) | LSM6_SPI_READ
+#define LSM6_read_y_l_g (0b00000000 << 8) | (OUTY_L_G<< 1) | LSM6_SPI_READ
+#define LSM6_read_y_h_g (0b00000000 << 8) | (OUTY_H_G<< 1) | LSM6_SPI_READ
+#define LSM6_read_z_l_g (0b00000000 << 8) | (OUTZ_L_G<< 1) | LSM6_SPI_READ
+#define LSM6_read_z_h_g (0b00000000 << 8) | (OUTZ_H_G<< 1) | LSM6_SPI_READ
+
+#define LSM6_read_x_l_a (0b00000000 << 8) | (OUTX_L_A<< 1) | LSM6_SPI_READ
+#define LSM6_read_x_h_a (0b00000000 << 8) | (OUTX_H_A<< 1) | LSM6_SPI_READ
+#define LSM6_read_y_l_a (0b00000000 << 8) | (OUTY_L_A<< 1) | LSM6_SPI_READ
+#define LSM6_read_y_h_a (0b00000000 << 8) | (OUTY_H_A<< 1) | LSM6_SPI_READ
+#define LSM6_read_z_l_a (0b00000000 << 8) | (OUTZ_L_A<< 1) | LSM6_SPI_READ
+#define LSM6_read_z_h_a (0b00000000 << 8) | (OUTZ_H_A<< 1) | LSM6_SPI_READ
+
 const int imuInit[] = {
   4,                // number of commands
   LSM6_reboot,      /*reboot IMU*/ 
@@ -145,7 +173,7 @@ const int fifoInit[] = {
   LSM6_FIFO_start_cfg,  /*FIFO enable*/
 };
 
-const int fifoXYZregisters[] = {
+const int fifoQXYZregisters[] = {
     6,                 // number of commands 
   LSM6_FIFO_read_x_h, 
   LSM6_FIFO_read_x_l, 
@@ -153,7 +181,22 @@ const int fifoXYZregisters[] = {
   LSM6_FIFO_read_y_l, 
   LSM6_FIFO_read_z_h,
   LSM6_FIFO_read_z_l,
+};
 
+const int readDataReg[] = {
+  12,
+  LSM6_read_x_h_g,
+  LSM6_read_x_l_g,
+  LSM6_read_y_h_g,
+  LSM6_read_y_l_g,
+  LSM6_read_z_h_g,
+  LSM6_read_z_l_g,
+  LSM6_read_x_h_a,
+  LSM6_read_x_l_a,
+  LSM6_read_y_h_a,
+  LSM6_read_y_l_a,
+  LSM6_read_z_h_a,
+  LSM6_read_z_l_a
 };
 
 typedef struct {
@@ -180,5 +223,15 @@ BaseType_t IMU_Init(void);
  * @return pdTRUE if data was successfully fetched from queue, pdFALSE if queue is empty
  */
 BaseType_t IMU_ReadData(IMUData_t *Data);
+
+/** IMU Read Data from Hardware FIFO 
+ * 
+ * @brief Update IMU struct with new data
+ * @param Data : Pointer to struct used to collect IMU Data
+ * @return pdTRUE if data was successfully fetched from queue, pdFALSE if queue is empty
+ */
+BaseType_t IMU_ReadDataHWQueue(IMUData_t *Data);
+
+
 
 #endif /* __IMU_H__ */
