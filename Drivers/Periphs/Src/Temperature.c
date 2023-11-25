@@ -23,8 +23,8 @@
  * @return pdTRUE if initialization was successful, pdFALSE otherwise
 */
 BaseType_t Temperature_Init(void) {
-  // TODO: Initialize ADC
-  // TODO: Initialize Sensor
+  //TODO: Incorporate DMA solution
+  MX_ADC1_Init();
 }
 
 /** milliVolt to Celsius
@@ -49,5 +49,14 @@ int32_t milliVoltToCelsius(uint32_t milliVolt){
  * @return pdTRUE if data was successfully fetched from queue, pdFALSE if queue is empty
 */
 BaseType_t Temperature_ReadData(TempData_t* Data){
-  // TODO: Read data from sensor
+  // TODO: Incorporate DMA solution
+  HAL_ADC_START(&hadc1);
+  for(int i = 0; i < 3; i++){
+    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
+    switch(i){
+      case 1: Data->temp1 = milliVoltToCelsius(HAL_ADC_GetValue(&hadc1));
+      case 2: Data->temp2 = milliVoltToCelsius(HAL_ADC_GetValue(&hadc1));
+      case 3: Data->temp3 = milliVoltToCelsius(HAL_ADC_GetValue(&hadc1));
+    }
+  }
 }
