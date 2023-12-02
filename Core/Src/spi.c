@@ -52,10 +52,10 @@ void MX_SPI1_Init(void)
   hspi1.Instance = SPI1;
   hspi1.Init.Mode = SPI_MODE_MASTER;
   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi1.Init.DataSize = SPI_DATASIZE_16BIT;
-  hspi1.Init.CLKPolarity = SPI_POLARITY_HIGH;
-  hspi1.Init.CLKPhase = SPI_PHASE_2EDGE;
-  hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT;
+  hspi1.Init.DataSize = SPI_DATASIZE_8BIT; // 8 bit message
+  hspi1.Init.CLKPolarity = SPI_POLARITY_LOW; // SPI Mode 0
+  hspi1.Init.CLKPhase = SPI_PHASE_1EDGE; // SPI Mode 0
+  hspi1.Init.NSS = SPI_NSS_SOFT; // IMU CS connected to PB12, have to use software controlled CS
   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128; //start slow then increase when using
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
