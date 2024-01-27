@@ -19,6 +19,45 @@
 #include <cstdint>
 #define NO_POLLING 0
 
+const int imuInit[][2] = {
+  {LSM6_CTRL_3, LSM6_reboot},  /*reboot IMU*/ 
+  {LSM6_CFG_ACCESS, LSM6_cfg}, /*IMU feature configuration*/ 
+  {LSM6_CTRL_1, LSM6_accel_start}, /*enable accelerometer*/
+  {LSM6_CTRL_2, LSM6_gyro_start}   /*enable gyroscope*/
+};
+
+const int fifoInit[][2] = {
+  {FIFO_CTRL_1, LSM6_FIFO_watermark},  /*FIFO watermark*/
+  {FIFO_CTRL_2, LSM6_FIFO_data_cfg},   /*FIFO configuration*/
+  {FIFO_CTRL_3, LSM6_FIFO_BDR},        /*FIFO batch data rate*/
+  {FIFO_CTRL_4, LSM6_FIFO_start_cfg}  /*FIFO enable*/
+};
+
+const int fifoQXYZregisters[][2] = {
+  {LSM6_FIFO_read_x_h, 0}, /*accelerometer and gyroscope xyz data from queue*/ 
+  {LSM6_FIFO_read_x_l, 0},
+  {LSM6_FIFO_read_y_h, 0},
+  {LSM6_FIFO_read_z_l, 0},
+  {LSM6_FIFO_read_y_l, 0},
+  {LSM6_FIFO_read_z_h, 0}
+};
+
+const int readDataReg[][2] = {
+  {LSM6_read_x_h_g, 0}, /*gyroscope xyz data*/
+  {LSM6_read_x_l_g, 0}, 
+  {LSM6_read_y_h_g, 0},
+  {LSM6_read_y_l_g, 0},
+  {LSM6_read_z_h_g, 0},
+  {LSM6_read_z_l_g, 0},
+  {LSM6_read_x_h_a, 0}, /*accelerometer xyz data*/
+  {LSM6_read_x_l_a, 0},
+  {LSM6_read_y_h_a, 0},
+  {LSM6_read_y_l_a, 0},
+  {LSM6_read_z_h_a, 0},
+  {LSM6_read_z_l_a, 0}
+};
+
+
 /** IMU Init
  * @brief Initialize IMU to collect data
  * 
@@ -26,26 +65,26 @@
  * @return pdTRUE if initialization was successful, pdFALSE otherwise
  */
 BaseType_t IMU_Init(void) {
-  int pTxData = 0;
-  int pRxData = 0;
-
-  IMUCommands_t IMUcommands;
   //Initialize SPI
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET); // normally low, high when writing
   MX_SPI1_Init();
 
   // Initialize IMU, gyroscope, and accelerometer
   // NOTE: accelerometer and gyroscope features may be further configured, see IMU.h for more details
   // TODO: Configure gyroscope and accelerometer
-  for(int i = 0; i < imuInit[0]; i ++){
-    pTxData = imuInit[i+1];
-    HAL_SPI_Transmit(&hspi1, &pTxData, 1, NO_POLLING);
+  // TODO: now using 8 bit transfer 
+  for(int i = 0; i < sizeof(imuInit)/sizeof(*imuInit); i ++){
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+    HAL_SPI_Transmit(&hspi1, &imuInit[i], 2, NO_POLLING);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
   }
 
   // Initialize IMU hardware FIFO
   // NOTE: FIFO size, rate and mode may be further configured, see IMU.h for more details
-  for(int i = 0; i < fifoInit[0], i ++){
-    pTxData = fifoInit[i+1];
-    HAL_SPI_Transmit(&hspi1, &pTxData, 1, NO_POLLING);
+  for(int i = 0; i < sizeof(fifoInit)/sizeof(*fifoInit); i ++){
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+    HAL_SPI_Transmit(&hspi1, &fifoInit[i], 2, NO_POLLING); 
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
   }
 }
 
@@ -57,15 +96,19 @@ BaseType_t IMU_Init(void) {
  * @return pdTRUE if data was successfully fetched from queue, pdFALSE if queue is empty
  */
 BaseType_t IMU_ReadData(IMUData_t *Data) {
-  int pTxData = 0;
-  int pRxData_L = 0;
-  int pRxData_H = 0;
-  for(int i = 0; i < readDataReg[0] - 1; i = i + 2){
+  int pTxData;
+  int pRxData[2];
+  // read for the length of the array, filling a buffer up with 
+  for(int i = 0; i < sizeof(readDataReg)/sizeof(*readDataReg); i = i + 2){
     pTxData = readDataReg[i+1];
-    HAL_SPI_TransmitReceive(&hspi1, &pTxData, &pRxData1, 1, NO_POLLING);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+    HAL_SPI_Transmit(&hspi1, &fifoInit[i], 1, NO_POLLING); 
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
     pTxData = readDataReg[i+2];
-    HAL_SPI_TransmitReceive(&hspi1, &pTxData, &pRxData2, 1, NO_POLLING);
-    switch(i){
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_SET);
+    HAL_SPI_Transmit(&hspi1, &fifoInit[i], 1, NO_POLLING); 
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, GPIO_PIN_RESET);
+    switch(i){ 
       case 0: Data->gyr_x = (pRxData1 << 8) | pRxData2; break;
       case 2: Data->gyr_y = (pRxData1 << 8) | pRxData2; break;
       case 4: Data->gyr_z = (pRxData1 << 8) | pRxData2; break;
@@ -86,6 +129,7 @@ BaseType_t IMU_ReadData(IMUData_t *Data) {
  */
 BaseType_t IMU_ReadDataHWQueue(IMUData_t *Data){
   // TODO: test on hardware
+  // ***WARNING***
   // behavior unpredictable until thourougly tested on hardware, recommend using IMU Read Data at the moment
   int pTxData = 0;
   int pRxData1 = 0;
