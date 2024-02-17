@@ -36,6 +36,7 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
+Core/Src/freertos.c \
 Core/Src/main.c \
 Core/Src/gpio.c \
 Core/Src/stm32l4xx_it.c \
@@ -58,7 +59,6 @@ Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_exti.c \
 Core/Src/system_stm32l4xx.c \
 Core/Src/can.c \
 Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_hal_can.c \
-Core/Src/freertos.c \
 Core/Src/stm32l4xx_hal_timebase_tim.c \
 Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
 Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
@@ -121,20 +121,19 @@ C_DEFS =  \
 -DSTM32L431xx
 
 
-# AS includes
-AS_INCLUDES = 
+AS_INCLUDES =  \
 
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
+-IDrivers/Periphs/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
 -IDrivers/CMSIS/Include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
--IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
-
+-IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
