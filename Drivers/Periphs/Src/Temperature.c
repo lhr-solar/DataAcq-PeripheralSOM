@@ -23,7 +23,6 @@
  * @return pdTRUE if initialization was successful, pdFALSE otherwise
 */
 BaseType_t Temperature_Init(void) {
-  //TODO: Incorporate DMA solution
   MX_ADC1_Init();
 }
 
@@ -49,7 +48,6 @@ int32_t milliVoltToCelsius(uint32_t milliVolt){
  * @return pdTRUE if data was successfully fetched from queue, pdFALSE if queue is empty
 */
 BaseType_t Temperature_ReadData(TempData_t* Data){
-  // TODO: Incorporate DMA solution
   HAL_ADC_START(&hadc1);
   for(int i = 0; i < 3; i++){
     HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
