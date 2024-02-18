@@ -10,8 +10,8 @@
 
 #include "tasks.h"
 #include "Airflow.h"
-//#include "IMU.h"
-//#include "Temperature.h"
+#include "IMU.h"
+#include "Temperature.h"
 #include <string.h>
 #include <stdio.h>
 

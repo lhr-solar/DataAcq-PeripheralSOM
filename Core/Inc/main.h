@@ -66,4 +66,10 @@ void Error_Handler(void);
 }
 #endif
 
+
+/*
+* Initializes the relevant pin configurations
+*/
+void configurePins(void);
+
 #endif /* __MAIN_H */
