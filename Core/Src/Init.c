@@ -21,15 +21,6 @@
 #include "Temperature.h"
 
 void InitializePeripherals(void) {
-  
-    HAL_GPIO_Init();
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    GPIO_InitStruct.Pin = GPIO_PIN;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW; 
-    HAL_GPIO_Init(GPIO_PIN_15, &GPIO_InitStruct);
-    //GPIO_InitTypeDef
 
     // TODO: Initialize CAN
     // TODO: Initialize IMU

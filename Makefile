@@ -39,7 +39,7 @@ C_SOURCES =  \
 Core/Src/main.c \
 Core/Src/freertos.c \
 Core/Src/gpio.c \
-Core/Src/tasks.c \
+Core/Src/tasks.c \ #BRUH
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
 Core/Src/system_stm32l4xx.c \
@@ -70,10 +70,6 @@ Middlewares/Third_Party/FreeRTOS/Source/tasks.c \
 Middlewares/Third_Party/FreeRTOS/Source/timers.c \
 Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_1.c \
-Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_2.c \
-Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_3.c \
-Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_4.c \
-Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang/heap_5.c \
 Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c
 
 
@@ -128,6 +124,9 @@ C_DEFS =  \
 
 
 AS_INCLUDES =  \
+-Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l431xx.h \
+-Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
+
 
 # C includes
 C_INCLUDES =  \
@@ -135,11 +134,11 @@ C_INCLUDES =  \
 -IDrivers/Periphs/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc/Legacy \
--IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
 -IDrivers/CMSIS/Include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/include \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
 -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
+-IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

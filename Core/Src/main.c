@@ -63,8 +63,8 @@ void MX_FREERTOS_Init(void);
 void configurePins(void)
 {
   MX_GPIO_Init(); // Configures GPIO pins
-  MX_CAN1_Init(); // Configures CAN pins
-  MX_I2C1_Init(); // Configures I2C pins
+  //MX_CAN1_Init(); // Configures CAN pins
+  //MX_I2C1_Init(); // Configures I2C pins
 }
 
 /* USER CODE END 0 */

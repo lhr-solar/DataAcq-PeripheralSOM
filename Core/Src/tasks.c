@@ -1,5 +1,5 @@
 /**
- * @file tasks.c
+ * @file Tasks.c
  * All tasks run by the RTOS.
  *
  * @note  Assumes that all lower level functions are initialized in main.c
