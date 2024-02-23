@@ -37,9 +37,10 @@ BUILD_DIR = build
 # C sources
 C_SOURCES =  \
 Core/Src/main.c \
+Core/Src/Init.c \
 Core/Src/freertos.c \
 Core/Src/gpio.c \
-Core/Src/tasks.c \ #BRUH
+Core/Src/tasks.c \
 Core/Src/stm32l4xx_it.c \
 Core/Src/stm32l4xx_hal_msp.c \
 Core/Src/system_stm32l4xx.c \
@@ -128,9 +129,9 @@ AS_INCLUDES =  \
 -Drivers/CMSIS/Device/ST/STM32L4xx/Include/stm32l4xx.h \
 
 
+
 # C includes
 C_INCLUDES =  \
--ICore/Inc \
 -IDrivers/Periphs/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc \
 -IDrivers/STM32L4xx_HAL_Driver/Inc/Legacy \
@@ -139,6 +140,7 @@ C_INCLUDES =  \
 -IMiddlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2 \
 -IMiddlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F \
 -IDrivers/CMSIS/Device/ST/STM32L4xx/Include \
+-ICore/Inc \
 
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

@@ -18,11 +18,10 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-//#include "cmsis_os.h" 
-#include "can.h"
+#include "cmsis_os.h" 
 #include "gpio.h"
 #include "tasks.h"
-//#include "FreeRTOSConfig.h"
+#include "FreeRTOSConfig.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

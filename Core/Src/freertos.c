@@ -94,7 +94,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   // TODO: call any init functions that handle RTOS queues
-  InitializePeripherals();
+  //InitializePeripherals();
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
